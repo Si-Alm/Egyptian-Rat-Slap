@@ -29,4 +29,9 @@ public class Player {
     public void removeCard(int pos) {
         hand.remove(pos);
     }
+
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+
 }
