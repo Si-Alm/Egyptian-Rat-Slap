@@ -8,14 +8,25 @@ import android.widget.*;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+
+
+
+
     //View widget declarations
     Button p1Play, p1Slap, p2Play, p2Slap, p3Play, p3Slap, p4Play, p4Slap;
     ImageView card, cCard1, cCard2, cCard3, cCard4;
-    Player p1, p2, p3, p4;
+    //Player p, p2, p3, p4;
+    Player p1 = new Player();
+    Player p2 = new Player();
+    Player p3 = new Player();
+    Player p4 = new Player();
+    Player[] players = {p1, p2, p3, p4};
+
     ImageView[] cornerCards = new ImageView[4];
     //Card and deck declarations
     Deck deck;
-    Card prevCard, prevPrevCard; //will track the previous card in playPile
+    Card prevCard, prevPrevCard,resetCard; //will track the previous card in playPile
     ArrayList<Card> playPile;
     //arrays for creating a deck
     final String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
@@ -23,10 +34,13 @@ public class MainActivity extends AppCompatActivity {
             "Jack", "Queen", "King", "Ace"};
 
 
+
+    Toast cardToast;
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.four_player);
 
         //Back card resource int
         final int backCard = getResources().getIdentifier("com.nerd.si.ers:drawable/back1", null, null);
@@ -86,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 getResources().getIdentifier("com.nerd.si.ers:drawable/kingclubs", null, null),
                 getResources().getIdentifier("com.nerd.si.ers:drawable/aceclubs", null, null),
         };
+        //player objects initialized and placed into an array
         cCard1 = findViewById(R.id.cornerCard1);
         cCard2 = findViewById(R.id.cornerCard2);
         cCard3 = findViewById(R.id.cornerCard3);
@@ -95,16 +110,18 @@ public class MainActivity extends AppCompatActivity {
         cornerCards[2] = cCard3;
         cornerCards[3] = cCard4;
 
-        //player objects initialized and placed into an array
-        p1 = new Player();
-        p2 = new Player();
-        p3 = new Player();
-        p4 = new Player();
-        Player[] players = {p1, p2, p3, p4};
+        //Creates toasts with card image
+        cardToast = new Toast(getApplicationContext());
+        imageView = new ImageView(getApplicationContext());
+        imageView.setImageResource(backCard);
+        cardToast.setView(imageView);
+
+
 
         //playPile and deck initialized and shuffled
         playPile = new ArrayList<>();
         deck = new Deck(suits, names, paths);
+        resetCard = deck.getCard(0);
         deck.shuffle();
 
         //Block for dealing deck
@@ -135,13 +152,13 @@ public class MainActivity extends AppCompatActivity {
 
         card = findViewById(R.id.card);
 
-
         //play onclickListeners
         p1Play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 try { //try catch, primary function to catch variations of OutOfBounds Exceptions
+
                     playPile.add(p1.getCard(0)); //adds top card of player's hand to the playPile
                     p1.removeCard(0); //removes that same card from player's hand
                     if (playPile.size() >= 2)
@@ -149,15 +166,30 @@ public class MainActivity extends AppCompatActivity {
                     if (playPile.size() >= 3)
                         prevPrevCard = playPile.get(playPile.size() - 3);
 
+                    if(prevCard.getIsAFace() && !playPile.get(playPile.size()-1).getIsAFace()) {
+                        imageView.setImageResource(playPile.get(playPile.size()-1).getPath());
+                        cardToast.show();
+                        prevCard = playPile.get(playPile.size()-1);
+
+                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end
+                            p4.addCard(playPile.get(i));
+                        playPile.clear(); //playPile is then cleared
+                        card.setImageResource(backCard); //and the imageView is set to the backCard image
+                        for (int i = 0; i < cornerCards.length; i++)
+                            cornerCards[i].setImageResource(backCard);
+
+                    }
+
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Player 1 is out of Cards!", Toast.LENGTH_LONG).show();
                 }
-                if (playPile.isEmpty())//if the playPile is empty, as no cards were added in the block above, the backCard image
-                    //is shown
-                    card.setImageResource(backCard);
 
-                else //if a card was added, the imageView is set to that card
+
+                if (playPile.isEmpty())
+                    card.setImageResource(backCard);
+                else
                     card.setImageResource(playPile.get(playPile.size() - 1).getPath());
+
 
                 if (playPile.size() <= 1) {
                     for (int i = 0; i < cornerCards.length; i++)
@@ -182,14 +214,30 @@ public class MainActivity extends AppCompatActivity {
                     if (playPile.size() >= 3)
                         prevPrevCard = playPile.get(playPile.size() - 3);
 
+                    if(prevCard.getIsAFace() && !playPile.get(playPile.size()-1).getIsAFace()) {
+                        imageView.setImageResource(playPile.get(playPile.size()-1).getPath());
+                        cardToast.show();
+                        prevCard = playPile.get(playPile.size()-1);
+
+                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end
+                            p1.addCard(playPile.get(i));
+                        playPile.clear(); //playPile is then cleared
+                        card.setImageResource(backCard); //and the imageView is set to the backCard image
+                        for (int i = 0; i < cornerCards.length; i++)
+                            cornerCards[i].setImageResource(backCard);
+
+                    }
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Player 2 is out of Cards!", Toast.LENGTH_LONG).show();
                 }
+
+                //for setting main card background
                 if (playPile.isEmpty())
                     card.setImageResource(backCard);
                 else
                     card.setImageResource(playPile.get(playPile.size() - 1).getPath());
 
+                //just for setting backgrounds of corner cards
                 if (playPile.size() <= 1) {
                     for (int i = 0; i < cornerCards.length; i++)
                         cornerCards[i].setImageResource(backCard);
@@ -197,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < cornerCards.length; i++)
                         cornerCards[i].setImageResource(playPile.get(playPile.size() - 2).getPath());
                 }
+
+
             }
         });
 
@@ -211,6 +261,20 @@ public class MainActivity extends AppCompatActivity {
                         prevCard = playPile.get(playPile.size() - 2);
                     if (playPile.size() >= 3)
                         prevPrevCard = playPile.get(playPile.size() - 3);
+
+                    if(prevCard.getIsAFace() && !playPile.get(playPile.size()-1).getIsAFace()) {
+                        imageView.setImageResource(playPile.get(playPile.size()-1).getPath());
+                        cardToast.show();
+                        prevCard = playPile.get(playPile.size()-1);
+
+                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end
+                            p2.addCard(playPile.get(i));
+                        playPile.clear(); //playPile is then cleared
+                        card.setImageResource(backCard); //and the imageView is set to the backCard image
+                        for (int i = 0; i < cornerCards.length; i++)
+                            cornerCards[i].setImageResource(backCard);
+
+                    }
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Player 3 is out of Cards!", Toast.LENGTH_LONG).show();
                 }
@@ -240,6 +304,20 @@ public class MainActivity extends AppCompatActivity {
                         prevCard = playPile.get(playPile.size() - 2);
                     if (playPile.size() >= 3)
                         prevPrevCard = playPile.get(playPile.size() - 3);
+
+                    if(prevCard.getIsAFace() && !playPile.get(playPile.size()-1).getIsAFace()) {
+                        imageView.setImageResource(playPile.get(playPile.size()-1).getPath());
+                        cardToast.show();
+                        prevCard = playPile.get(playPile.size()-1);
+
+                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end
+                            p3.addCard(playPile.get(i));
+                        playPile.clear(); //playPile is then cleared
+                        card.setImageResource(backCard); //and the imageView is set to the backCard image
+                        for (int i = 0; i < cornerCards.length; i++)
+                            cornerCards[i].setImageResource(backCard);
+
+                    }
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Player 4 is out of Cards!", Toast.LENGTH_LONG).show();
                 }
@@ -269,6 +347,8 @@ public class MainActivity extends AppCompatActivity {
                             prevPrevCard.getName().equals(playPile.get(playPile.size() - 1).getName()))) {
                         for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end
                             p1.addCard(playPile.get(i));
+                        prevCard = resetCard;
+                        prevPrevCard = resetCard;
                         playPile.clear(); //playPile is then cleared
                         card.setImageResource(backCard); //and the imageView is set to the backCard image
                         for (int i = 0; i < cornerCards.length; i++)
@@ -306,11 +386,13 @@ public class MainActivity extends AppCompatActivity {
                             prevPrevCard.getName().equals(playPile.get(playPile.size() - 1).getName()))) {
                         for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end
                             p2.addCard(playPile.get(i));
+                        prevCard = resetCard;
+                        prevPrevCard = resetCard;
                         playPile.clear(); //playPile is then cleared
                         card.setImageResource(backCard); //and the imageView is set to the backCard image
                         for (int i = 0; i < cornerCards.length; i++)
                             cornerCards[i].setImageResource(backCard);
-                        Toast.makeText(getApplicationContext(), "Player 1 wins the slap and the cards", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Player 2 wins the slap and the cards", Toast.LENGTH_SHORT).show();
                     } else {
 
                         if (!p2.getHand().isEmpty()) {
@@ -319,14 +401,14 @@ public class MainActivity extends AppCompatActivity {
                                 playPile.add(0, p2.getCard(1));
                                 p2.getHand().remove(1);
                                 p2.getHand().remove(0);
-                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 1 loses two cards", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 2 loses two cards", Toast.LENGTH_SHORT).show();
                             } else if (p2.getHand().size() == 1) {
                                 playPile.add(0, p2.getCard(0));
                                 p2.getHand().remove(0);
-                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 1 loses their last card", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 2 loses their last card", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Player 1 has no more cards to lose for their carelessness", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Player 2 has no more cards to lose for their carelessness", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
@@ -343,11 +425,13 @@ public class MainActivity extends AppCompatActivity {
                             prevPrevCard.getName().equals(playPile.get(playPile.size() - 1).getName()))) {
                         for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end
                             p3.addCard(playPile.get(i));
+                        prevCard = resetCard;
+                        prevPrevCard = resetCard;
                         playPile.clear(); //playPile is then cleared
                         card.setImageResource(backCard); //and the imageView is set to the backCard image
                         for (int i = 0; i < cornerCards.length; i++)
                             cornerCards[i].setImageResource(backCard);
-                        Toast.makeText(getApplicationContext(), "Player 1 wins the slap and the cards", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Player 3 wins the slap and the cards", Toast.LENGTH_SHORT).show();
                     } else {
 
                         if (!p3.getHand().isEmpty()) {
@@ -356,14 +440,14 @@ public class MainActivity extends AppCompatActivity {
                                 playPile.add(0, p3.getCard(1));
                                 p3.getHand().remove(1);
                                 p3.getHand().remove(0);
-                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 1 loses two cards", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 3 loses two cards", Toast.LENGTH_SHORT).show();
                             } else if (p3.getHand().size() == 1) {
                                 playPile.add(0, p3.getCard(0));
                                 p3.getHand().remove(0);
-                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 1 loses their last card", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 3 loses their last card", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Player 1 has no more cards to lose for their carelessness", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Player 3 has no more cards to lose for their carelessness", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
@@ -380,11 +464,13 @@ public class MainActivity extends AppCompatActivity {
                             prevPrevCard.getName().equals(playPile.get(playPile.size() - 1).getName()))) {
                         for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end
                             p4.addCard(playPile.get(i));
+                        prevCard = resetCard;
+                        prevPrevCard = resetCard;
                         playPile.clear(); //playPile is then cleared
                         card.setImageResource(backCard); //and the imageView is set to the backCard image
                         for (int i = 0; i < cornerCards.length; i++)
                             cornerCards[i].setImageResource(backCard);
-                        Toast.makeText(getApplicationContext(), "Player 1 wins the slap and the cards", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Player 4 wins the slap and the cards", Toast.LENGTH_SHORT).show();
                     } else {
 
                         if (!p4.getHand().isEmpty()) {
@@ -393,14 +479,14 @@ public class MainActivity extends AppCompatActivity {
                                 playPile.add(0, p4.getCard(1));
                                 p4.getHand().remove(1);
                                 p4.getHand().remove(0);
-                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 1 loses two cards", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 4 loses two cards", Toast.LENGTH_SHORT).show();
                             } else if (p4.getHand().size() == 1) {
                                 playPile.add(0, p4.getCard(0));
                                 p4.getHand().remove(0);
-                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 1 loses their last card", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Not a viable slap, player 4 loses their last card", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Player 1 has no more cards to lose for their carelessness", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Player 4 has no more cards to lose for their carelessness", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {

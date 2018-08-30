@@ -3,8 +3,9 @@ package com.nerd.si.ers;
 
 public class Card {
     private String suit, name;
-    private int path;
-    protected boolean isAFace;
+    private int path, requiredPlays;
+    private boolean isAFace;
+
 
     public Card(String suit, String name, int path) {
         this.suit = suit;
@@ -15,6 +16,17 @@ public class Card {
             isAFace = true;
         else
             isAFace = false;
+
+        if(name.equals("Jack"))
+            this.requiredPlays = 1;
+        else if(name.equals("Queen"))
+            this.requiredPlays = 2;
+        else if(name.equals("King"))
+            this.requiredPlays = 3;
+        else if(name.equals("Ace"))
+            this.requiredPlays = 4;
+        else
+            this.requiredPlays = 0;
     }
 
     public Card(String suit, String name) {
@@ -25,6 +37,18 @@ public class Card {
             isAFace = true;
         else
             isAFace = false;
+
+        if(name.equals("Jack"))
+            this.requiredPlays = 1;
+        else if(name.equals("Queen"))
+            this.requiredPlays = 2;
+        else if(name.equals("King"))
+            this.requiredPlays = 3;
+        else if(name.equals("Ace"))
+            this.requiredPlays = 4;
+        else
+            this.requiredPlays = 0;
+
     }
 
     public Card() {
@@ -64,5 +88,12 @@ public class Card {
         return "The " + name + " of " + suit + ".";
     }
 
+    public boolean getIsAFace() {
+        return isAFace;
+    }
+
+    public int getRequiredPlays() {
+        return requiredPlays;
+    }
 
 }
