@@ -24,6 +24,29 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
+
+        <activity android:name=".HowTo"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".TwoPlayerActivity"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".ThreePlayerActivity"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".OnePlayerActivity"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="234dp"
+        android:layout_height="94dp"
+        android:layout_marginBottom="43dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/p1Slap"
+            android:layout_width="70dp"
+            android:layout_height="69dp"
+            android:layout_weight="1"
+            android:rotation="180"
+            android:text="Slap" />
+
+        <Button
+            android:id="@+id/p1Play"
+            android:layout_width="70dp"
+            android:layout_height="67dp"
+            android:layout_weight="1"
+            android:rotation="180"
+            android:text="Play" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="198dp"
+        android:layout_marginBottom="227dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="211dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.512">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/p4Slap"
+                android:layout_width="89dp"
+                android:layout_height="101dp"
+                android:rotation="90"
+                android:text="Slap" />
+
+            <Button
+                android:id="@+id/p4Play"
+                android:layout_width="89dp"
+                android:layout_height="101dp"
+                android:rotation="90"
+                android:text="Play" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/card"
+            android:layout_width="wrap_content"
+            android:layout_height="133dp"
+            android:layout_marginTop="32dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/back1" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/p2Slap"
+                android:layout_width="89dp"
+                android:layout_height="101dp"
+                android:rotation="-90"
+                android:text="Slap" />
+
+            <Button
+                android:id="@+id/p2Play"
+                android:layout_width="89dp"
+                android:layout_height="101dp"
+                android:rotation="-90"
+                android:text="Play" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="234dp"
+        android:layout_height="94dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="55dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <Button
+            android:id="@+id/p3Slap"
+            android:layout_width="70dp"
+            android:layout_height="69dp"
+            android:layout_weight="1"
+            android:text="Slap" />
+
+        <Button
+            android:id="@+id/p3Play"
+            android:layout_width="70dp"
+            android:layout_height="67dp"
+            android:layout_weight="1"
+            android:text="Play" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/cornerCard4"
+        android:layout_width="47dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back1"
+        android:rotation="90"/>
+
+    <ImageView
+        android:id="@+id/cornerCard1"
+        android:layout_width="47dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back1" />
+
+    <ImageView
+        android:id="@+id/cornerCard3"
+        android:layout_width="47dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="115dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/back1" />
+
+    <ImageView
+        android:id="@+id/cornerCard2"
+        android:layout_width="47dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="115dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/back1"
+        android:rotation="90"/>
+</android.support.constraint.ConstraintLayout>
