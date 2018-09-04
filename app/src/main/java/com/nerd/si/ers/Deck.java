@@ -45,4 +45,8 @@ public class Deck {
         return cards.size();
     }
 
+    public void removeCard(int pos) {
+        cards.remove(pos);
+    }
+
 }

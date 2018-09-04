@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/p1Slap"
+            android:id="@+id/a2p1Slap"
             android:layout_width="70dp"
             android:layout_height="69dp"
             android:layout_weight="1"
@@ -31,17 +31,17 @@
             android:text="Slap" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/p1Count"
             android:layout_width="70dp"
             android:layout_height="40dp"
             android:layout_weight="1"
+            android:rotation="180"
             android:text="26"
             android:textAlignment="center"
-            android:textSize="24sp"
-            android:rotation="180"/>
+            android:textSize="24sp" />
 
         <Button
-            android:id="@+id/p1Play"
+            android:id="@+id/a2p1Play"
             android:layout_width="70dp"
             android:layout_height="67dp"
             android:layout_weight="1"
@@ -51,7 +51,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/a2MainCard"
         android:layout_width="92dp"
         android:layout_height="129dp"
         android:layout_marginBottom="90dp"
@@ -85,14 +85,14 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <Button
-            android:id="@+id/p3Slap"
+            android:id="@+id/a2p2Slap"
             android:layout_width="70dp"
             android:layout_height="69dp"
             android:layout_weight="1"
             android:text="Slap" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/p2Count"
             android:layout_width="70dp"
             android:layout_height="67dp"
             android:layout_weight="1"
@@ -101,7 +101,7 @@
             android:textSize="24sp" />
 
         <Button
-            android:id="@+id/p3Play"
+            android:id="@+id/a2p2Play"
             android:layout_width="70dp"
             android:layout_height="67dp"
             android:layout_weight="1"
@@ -109,7 +109,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/a2prevCard"
         android:layout_width="36dp"
         android:layout_height="42dp"
         android:layout_marginBottom="30dp"
@@ -117,29 +117,24 @@
         android:layout_marginLeft="174dp"
         android:layout_marginRight="174dp"
         android:layout_marginStart="174dp"
-        android:layout_marginTop="37dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
         app:srcCompat="@drawable/back1" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/a2prevCard2"
         android:layout_width="36dp"
         android:layout_height="42dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginEnd="174dp"
         android:layout_marginLeft="174dp"
         android:layout_marginRight="174dp"
         android:layout_marginStart="174dp"
         android:layout_marginTop="9dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/back1" />
 
 </android.support.constraint.ConstraintLayout>
