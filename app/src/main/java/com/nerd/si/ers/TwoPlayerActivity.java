@@ -32,6 +32,8 @@ public class TwoPlayerActivity extends AppCompatActivity {
 
     TextView p1Count, p2Count;
 
+    int chanceCount;
+    boolean isAFaceTurn;
 
     Toast cardToast;
     ImageView imageView;
@@ -174,22 +176,40 @@ public class TwoPlayerActivity extends AppCompatActivity {
                           TODO: Create a parameter that wouldn't allow a player to use play button if it is not their turn(perhaps a field currentPlayer that is set to the player whose turn it is)
                                 (the above field will not be applied to the slap buttons, as those should be able to be used regardless of whose turn it is)
                          */
-                    if (prevCard.getIsAFace() && !playPile.get(playPile.size() - 1).getIsAFace()) {
-                        imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
-                        cardToast.show(); //shows the card that was played as a toast
+                    if (prevCard.getIsAFace() || isAFaceTurn) {
+                        isAFaceTurn = true;
+                        if(prevCard.getIsAFace())
+                            chanceCount = prevCard.getRequiredPlays();
+
                         prevCard = playPile.get(playPile.size() - 1); //sets the previous card
 
-                        if(!p2.getHand().isEmpty()) {
-                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                p2.addCard(playPile.get(i));
+                        if(!playPile.get(playPile.size()-1).getIsAFace()) {
+                            chanceCount --;
+                            if(chanceCount == 0) {
+                                if (!p2.getHand().isEmpty()) {
+                                    for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                        p2.addCard(playPile.get(i));
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Player 1 is the WINNNER!", Toast.LENGTH_LONG).show();
+                                }
+                                isAFaceTurn = false;
+
+                                imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
+                                cardToast.show(); //shows the card that was played as a toast
+
+                                playPile.clear(); //playPile is then cleared
+                                mainCard.setImageResource(backCard); //and the imageView is set to the backCard image
+                                //loo to set corner cards
+                                for (int i = 0; i < cornerCards.length; i++)
+                                    cornerCards[i].setImageResource(backCard);
+                            }
+                        } else if(playPile.get(playPile.size()-1).getIsAFace()) {
+                            chanceCount = 0;
+                            isAFaceTurn = false;
                         } else {
-                            Toast.makeText(getApplicationContext(), "Player 1 is the WINNNER!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
                         }
-                        playPile.clear(); //playPile is then cleared
-                        mainCard.setImageResource(backCard); //and the imageView is set to the backCard image
-                        //loo to set corner cards
-                        for (int i = 0; i < cornerCards.length; i++)
-                            cornerCards[i].setImageResource(backCard);
+
 
                     }
 
@@ -231,26 +251,40 @@ public class TwoPlayerActivity extends AppCompatActivity {
                     if (playPile.size() >= 3)
                         prevPrevCard = playPile.get(playPile.size() - 3);
 
-                    if (prevCard.getIsAFace() && !playPile.get(playPile.size() - 1).getIsAFace()) {
-                        imageView.setImageResource(playPile.get(playPile.size() - 1).getPath());
-                        cardToast.show();
-                        prevCard = playPile.get(playPile.size() - 1);
+                    if (prevCard.getIsAFace() || isAFaceTurn) {
+                        isAFaceTurn = true;
+                        if(prevCard.getIsAFace())
+                            chanceCount = prevCard.getRequiredPlays();
 
+                        prevCard = playPile.get(playPile.size() - 1); //sets the previous card
 
-                        if(!p1.getHand().isEmpty()) {
-                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                p1.addCard(playPile.get(i));
+                        if(!playPile.get(playPile.size()-1).getIsAFace()) {
+                            chanceCount --;
+                            if(chanceCount == 0) {
+                                if (!p1.getHand().isEmpty()) {
+                                    for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                        p1.addCard(playPile.get(i));
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Player 2 is the WINNNER!", Toast.LENGTH_LONG).show();
+                                }
+                                isAFaceTurn = false;
+
+                                imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
+                                cardToast.show(); //shows the card that was played as a toast
+
+                                playPile.clear(); //playPile is then cleared
+                                mainCard.setImageResource(backCard); //and the imageView is set to the backCard image
+                                //loo to set corner cards
+                                for (int i = 0; i < cornerCards.length; i++)
+                                    cornerCards[i].setImageResource(backCard);
+                            }
+                        } else if(playPile.get(playPile.size()-1).getIsAFace()) {
+                            chanceCount = 0;
+                            isAFaceTurn = false;
                         } else {
-                            Toast.makeText(getApplicationContext(), "Player 2 is the WINNNER!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
                         }
 
-
-
-
-                        playPile.clear(); //playPile is then cleared
-                        mainCard.setImageResource(backCard); //and the imageView is set to the backCard image
-                        for (int i = 0; i < cornerCards.length; i++)
-                            cornerCards[i].setImageResource(backCard);
 
                     }
                 } catch (Exception e) {

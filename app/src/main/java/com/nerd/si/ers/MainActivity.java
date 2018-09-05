@@ -9,10 +9,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-
-
     //View widget declarations
     Button p1Play, p1Slap, p2Play, p2Slap, p3Play, p3Slap, p4Play, p4Slap;
     Button[] playButtons = new Button[4];
@@ -189,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                                 (the above field will not be applied to the slap buttons, as those should be able to be used regardless of whose turn it is)
                          */
 
-                        //&& !playPile.get(playPile.size() - 1).getIsAFace()
+
                         if (prevCard.getIsAFace() || isAFaceTurn) {
                             isAFaceTurn = true;
                             if(prevCard.getIsAFace())
