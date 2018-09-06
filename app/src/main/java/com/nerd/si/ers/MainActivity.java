@@ -1,5 +1,6 @@
 package com.nerd.si.ers;
-
+//TODO: Make sure that cards are added to the opposite end of the hand then from where they are drawn from
+//TODO: This entails making sure that the arraylist methods are used correctly
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Player p2 = new Player();
     Player p3 = new Player();
     Player p4 = new Player();
+    Player currentPlayer = new Player();
     Player[] players = {p1, p2, p3, p4};
 
     ImageView[] cornerCards = new ImageView[4];
@@ -161,332 +163,440 @@ public class MainActivity extends AppCompatActivity {
         playButtons[3] = p4Play;
 
         setPlaybuttons();
+        currentPlayer = p1;
 
             //play onclickListeners
             p1Play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(currentPlayer.equals(p1) && p1.getHand().isEmpty()) {
+                        if(!p2.getHand().isEmpty()) {
+                            currentPlayer = p2;
+                        } else if(!p3.getHand().isEmpty()) {
+                            currentPlayer = p3;
+                        } else if(!p4.getHand().isEmpty()) {
+                            currentPlayer = p4;
+                        }
+                    }
+                    if (currentPlayer.equals(p1)) {
+                        try { //try catch, primary function to catch variations of OutOfBounds Exceptions
 
-                    try { //try catch, primary function to catch variations of OutOfBounds Exceptions
+                            playPile.add(p1.getCard(0)); //adds top card of player's hand to the playPile
+                            p1.removeCard(0); //removes that same card from player's hand
 
-                        playPile.add(p1.getCard(0)); //adds top card of player's hand to the playPile
-                        p1.removeCard(0); //removes that same card from player's hand
-
-                        if (playPile.size() >= 2) //if the play pile is greater than one, the previous card is set to size-2
-                            prevCard = playPile.get(playPile.size() - 2);
-                        if (playPile.size() >= 3) //if the play pile is greater than two, the previous previous card is set to size-3
-                            prevPrevCard = playPile.get(playPile.size() - 3);
+                            if (playPile.size() >= 2) //if the play pile is greater than one, the previous card is set to size-2
+                                prevCard = playPile.get(playPile.size() - 2);
+                            if (playPile.size() >= 3) //if the play pile is greater than two, the previous previous card is set to size-3
+                                prevPrevCard = playPile.get(playPile.size() - 3);
 
                         /*
                           First basic method for face card rule
                           It checks if the previous played card was a face card and if the next played card isn't a face
                           the block is ran
-                          TODO: Create a parameter that wouldn't allow a player to use play button if it is not their turn(perhaps a field currentPlayer that is set to the player whose turn it is)
-                                (the above field will not be applied to the slap buttons, as those should be able to be used regardless of whose turn it is)
                          */
 
 
-                        if (prevCard.getIsAFace() || isAFaceTurn) {
-                            isAFaceTurn = true;
-                            if(prevCard.getIsAFace())
-                                chanceCount = prevCard.getRequiredPlays();
+                            if (prevCard.getIsAFace() || isAFaceTurn) {
+                                isAFaceTurn = true;
 
-                            prevCard = playPile.get(playPile.size() - 1); //sets the previous card
+                                if (prevCard.getIsAFace())
+                                    chanceCount = prevCard.getRequiredPlays();
 
-                            if(!playPile.get(playPile.size()-1).getIsAFace()) {
-                                chanceCount --;
-                                if(chanceCount == 0) {
-                                    if (!p4.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p4.addCard(playPile.get(i));
-                                    } else if (!p3.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p3.addCard(playPile.get(i));
-                                    } else if (!p2.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p2.addCard(playPile.get(i));
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Player 1 is the WINNNER!", Toast.LENGTH_LONG).show();
+                                prevCard = playPile.get(playPile.size() - 1); //sets the previous card
+
+                                if (!playPile.get(playPile.size() - 1).getIsAFace()) {
+                                    chanceCount--;
+                                    if (chanceCount == 0) {
+                                        if (!p4.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p4.addCard(playPile.get(i));
+                                            currentPlayer = p4;
+                                        } else if (!p3.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p3.addCard(playPile.get(i));
+                                            currentPlayer = p3;
+                                        } else if (!p2.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p2.addCard(playPile.get(i));
+                                            currentPlayer = p2;
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Player 1 is the WINNNER!", Toast.LENGTH_LONG).show();
+                                        }
+                                        isAFaceTurn = false;
+
+                                        imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
+                                        cardToast.show(); //shows the card that was played as a toast
+
+                                        playPile.clear(); //playPile is then cleared
+                                        card.setImageResource(backCard); //and the imageView is set to the backCard image
+                                        //loo to set corner cards
+                                        for (int i = 0; i < cornerCards.length; i++)
+                                            cornerCards[i].setImageResource(backCard);
+
                                     }
+                                } else if (playPile.get(playPile.size() - 1).getIsAFace()) {
+                                    chanceCount = 0;
                                     isAFaceTurn = false;
-
-                                    imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
-                                    cardToast.show(); //shows the card that was played as a toast
-
-                                    playPile.clear(); //playPile is then cleared
-                                    card.setImageResource(backCard); //and the imageView is set to the backCard image
-                                    //loo to set corner cards
-                                    for (int i = 0; i < cornerCards.length; i++)
-                                        cornerCards[i].setImageResource(backCard);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
                                 }
-                            } else if(playPile.get(playPile.size()-1).getIsAFace()) {
-                                chanceCount = 0;
-                                isAFaceTurn = false;
-                            } else {
-                                Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
+
+
                             }
 
 
+                            if(currentPlayer.equals(p1) && (!playPile.isEmpty() || !prevCard.getIsAFace()) && !isAFaceTurn) {
+                                if (!p2.getHand().isEmpty()) {
+                                    currentPlayer = p2;
+                                } else if (!p3.getHand().isEmpty()) {
+                                    currentPlayer = p3;
+                                } else if (!p4.getHand().isEmpty()) {
+                                    currentPlayer = p4;
+                                }
+                            }
+
+
+                        } catch (Exception e) { //catch block used primarily for out of bounds exception(which indicate that a player's hand is empty)
+                            Toast.makeText(getApplicationContext(), "Player 1 is out of Cards!", Toast.LENGTH_LONG).show();
                         }
 
-                    } catch (Exception e) { //catch block used primarily for out of bounds exception(which indicate that a player's hand is empty)
-                        Toast.makeText(getApplicationContext(), "Player 1 is out of Cards!", Toast.LENGTH_LONG).show();
-                    }
 
-
-                    if (playPile.isEmpty()) { // if the play pile was emptied(due to face card rule) the card images are set to the back card image
-                        card.setImageResource(backCard);
-                        for (int i = 0; i < cornerCards.length; i++)
-                            cornerCards[i].setImageResource(backCard);
-                    }
-                    else { //if pile wasn't emptied, the card images are set to the played card
-                        card.setImageResource(playPile.get(playPile.size() - 1).getPath());
-                        if(playPile.size() >=2) {
+                        if (playPile.isEmpty()) { // if the play pile was emptied(due to face card rule) the card images are set to the back card image
+                            card.setImageResource(backCard);
                             for (int i = 0; i < cornerCards.length; i++)
-                                cornerCards[i].setImageResource(playPile.get(playPile.size() - 2).getPath());
+                                cornerCards[i].setImageResource(backCard);
+                        } else { //if pile wasn't emptied, the card images are set to the played card
+                            card.setImageResource(playPile.get(playPile.size() - 1).getPath());
+                            if (playPile.size() >= 2) {
+                                for (int i = 0; i < cornerCards.length; i++)
+                                    cornerCards[i].setImageResource(playPile.get(playPile.size() - 2).getPath());
+                            }
                         }
+
+                        setPlaybuttons();
+
+                        if (p1.getHand().size() == 52)
+                            Toast.makeText(getApplicationContext(), "Player 1 Wins!!!!!!!", Toast.LENGTH_LONG).show();
+
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "It is not your turn", Toast.LENGTH_LONG).show();
                     }
-
-                    setPlaybuttons();
-
-                    if(p1.getHand().size() == 52)
-                        Toast.makeText(getApplicationContext(), "Player 1 Wins!!!!!!!", Toast.LENGTH_LONG).show();
                 }
+
             });
 
             p2Play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(currentPlayer.equals(p2) && p2.getHand().isEmpty()) {
+                        if(!p3.getHand().isEmpty()) {
+                            currentPlayer = p3;
+                        } else if(!p4.getHand().isEmpty()) {
+                            currentPlayer = p4;
+                        } else if(!p1.getHand().isEmpty()) {
+                            currentPlayer = p1;
+                        }
+                    }
+                    if (currentPlayer.equals(p2)) {
+                        try {
 
-                    try {
-                        playPile.add(p2.getCard(0));
-                        p2.removeCard(0);
-                        if (playPile.size() >= 2)
-                            prevCard = playPile.get(playPile.size() - 2);
-                        if (playPile.size() >= 3)
-                            prevPrevCard = playPile.get(playPile.size() - 3);
+                            playPile.add(p2.getCard(0));
+                            p2.removeCard(0);
+                            if (playPile.size() >= 2)
+                                prevCard = playPile.get(playPile.size() - 2);
+                            if (playPile.size() >= 3)
+                                prevPrevCard = playPile.get(playPile.size() - 3);
 
-                        if (prevCard.getIsAFace() || isAFaceTurn) {
-                            isAFaceTurn = true;
-                            if(prevCard.getIsAFace())
-                                chanceCount = prevCard.getRequiredPlays();
+                            if (prevCard.getIsAFace() || isAFaceTurn) {
+                                isAFaceTurn = true;
+                                if (prevCard.getIsAFace())
+                                    chanceCount = prevCard.getRequiredPlays();
 
-                            prevCard = playPile.get(playPile.size() - 1); //sets the previous card
+                                prevCard = playPile.get(playPile.size() - 1); //sets the previous card
 
-                            if(!playPile.get(playPile.size()-1).getIsAFace()) {
-                                chanceCount --;
-                                if(chanceCount == 0) {
-                                    if (!p1.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p1.addCard(playPile.get(i));
-                                    } else if (!p4.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p4.addCard(playPile.get(i));
-                                    } else if (!p3.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p3.addCard(playPile.get(i));
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Player 1 is the WINNNER!", Toast.LENGTH_LONG).show();
+                                if (!playPile.get(playPile.size() - 1).getIsAFace()) {
+                                    chanceCount--;
+                                    if (chanceCount == 0) {
+                                        if (!p1.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p1.addCard(playPile.get(i));
+                                            currentPlayer = p1;
+                                        } else if (!p4.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p4.addCard(playPile.get(i));
+                                            currentPlayer = p4;
+                                        } else if (!p3.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p3.addCard(playPile.get(i));
+                                            currentPlayer = p3;
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Player 1 is the WINNER!", Toast.LENGTH_LONG).show();
+                                        }
+                                        isAFaceTurn = false;
+
+                                        imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
+                                        cardToast.show(); //shows the card that was played as a toast
+
+
+                                        playPile.clear(); //playPile is then cleared
+                                        card.setImageResource(backCard); //and the imageView is set to the backCard image
+                                        //loo to set corner cards
+                                        for (int i = 0; i < cornerCards.length; i++)
+                                            cornerCards[i].setImageResource(backCard);
+
                                     }
+                                } else if (playPile.get(playPile.size() - 1).getIsAFace()) {
+                                    chanceCount = 0;
                                     isAFaceTurn = false;
-
-                                    imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
-                                    cardToast.show(); //shows the card that was played as a toast
-
-                                    playPile.clear(); //playPile is then cleared
-                                    card.setImageResource(backCard); //and the imageView is set to the backCard image
-                                    //loo to set corner cards
-                                    for (int i = 0; i < cornerCards.length; i++)
-                                        cornerCards[i].setImageResource(backCard);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
                                 }
-                            } else if(playPile.get(playPile.size()-1).getIsAFace()) {
-                                chanceCount = 0;
-                                isAFaceTurn = false;
-                            } else {
-                                Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
+
                             }
 
-
+                            if(!playPile.isEmpty() && currentPlayer.equals(p2) && !isAFaceTurn) {
+                                if (!p3.getHand().isEmpty()) {
+                                    currentPlayer = p3;
+                                } else if (!p4.getHand().isEmpty()) {
+                                    currentPlayer = p4;
+                                } else if (!p1.getHand().isEmpty()) {
+                                    currentPlayer = p1;
+                                }
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Player 2 is out of Cards!", Toast.LENGTH_LONG).show();
                         }
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "Player 2 is out of Cards!", Toast.LENGTH_LONG).show();
-                    }
 
 
-                    if (playPile.isEmpty()) { // if the play pile was emptied(due to face card rule) the card images are set to the back card image
-                        card.setImageResource(backCard);
-                        for (int i = 0; i < cornerCards.length; i++)
-                            cornerCards[i].setImageResource(backCard);
-                    }
-                    else { //if pile wasn't emptied, the card images are set to the played card
-                        card.setImageResource(playPile.get(playPile.size() - 1).getPath());
-                        if(playPile.size() >=2) {
+                        if (playPile.isEmpty()) { // if the play pile was emptied(due to face card rule) the card images are set to the back card image
+                            card.setImageResource(backCard);
                             for (int i = 0; i < cornerCards.length; i++)
-                                cornerCards[i].setImageResource(playPile.get(playPile.size() - 2).getPath());
+                                cornerCards[i].setImageResource(backCard);
+                        } else { //if pile wasn't emptied, the card images are set to the played card
+                            card.setImageResource(playPile.get(playPile.size() - 1).getPath());
+                            if (playPile.size() >= 2) {
+                                for (int i = 0; i < cornerCards.length; i++)
+                                    cornerCards[i].setImageResource(playPile.get(playPile.size() - 2).getPath());
+                            }
                         }
+
+                        setPlaybuttons();
+
+
+                        if (p2.getHand().size() == 52)
+                            Toast.makeText(getApplicationContext(), "Player 2 Wins!!!!!!!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "It is not your turn!", Toast.LENGTH_LONG).show();
                     }
-
-                    setPlaybuttons();
-
-                    if(p2.getHand().size() == 52)
-                        Toast.makeText(getApplicationContext(), "Player 2 Wins!!!!!!!", Toast.LENGTH_LONG).show();
                 }
             });
 
             p3Play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(currentPlayer.equals(p3) && p3.getHand().isEmpty()) {
+                        if(!p4.getHand().isEmpty()) {
+                            currentPlayer = p4;
+                        } else if(!p1.getHand().isEmpty()) {
+                            currentPlayer = p1;
+                        } else if(!p2.getHand().isEmpty()) {
+                            currentPlayer = p2;
+                        }
+                    }
+                    if (currentPlayer.equals(p3)) {
+                        try {
 
-                    try {
+                            playPile.add(p3.getCard(0));
+                            p3.removeCard(0);
+                            if (playPile.size() >= 2)
+                                prevCard = playPile.get(playPile.size() - 2);
+                            if (playPile.size() >= 3)
+                                prevPrevCard = playPile.get(playPile.size() - 3);
 
-                        playPile.add(p3.getCard(0));
-                        p3.removeCard(0);
-                        if (playPile.size() >= 2)
-                            prevCard = playPile.get(playPile.size() - 2);
-                        if (playPile.size() >= 3)
-                            prevPrevCard = playPile.get(playPile.size() - 3);
+                            if (prevCard.getIsAFace() || isAFaceTurn) {
+                                isAFaceTurn = true;
+                                if (prevCard.getIsAFace())
+                                    chanceCount = prevCard.getRequiredPlays();
 
-                        if (prevCard.getIsAFace() || isAFaceTurn) {
-                            isAFaceTurn = true;
-                            if(prevCard.getIsAFace())
-                                chanceCount = prevCard.getRequiredPlays();
+                                prevCard = playPile.get(playPile.size() - 1); //sets the previous card
 
-                            prevCard = playPile.get(playPile.size() - 1); //sets the previous card
+                                if (!playPile.get(playPile.size() - 1).getIsAFace()) {
+                                    chanceCount--;
+                                    if (chanceCount == 0) {
+                                        if (!p2.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p2.addCard(playPile.get(i));
+                                            currentPlayer = p2;
+                                        } else if (!p1.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p1.addCard(playPile.get(i));
+                                            currentPlayer = p1;
+                                        } else if (!p4.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p4.addCard(playPile.get(i));
+                                            currentPlayer = p4;
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Player 1 is the WINNNER!", Toast.LENGTH_LONG).show();
+                                        }
+                                        isAFaceTurn = false;
 
-                            if(!playPile.get(playPile.size()-1).getIsAFace()) {
-                                chanceCount --;
-                                if(chanceCount == 0) {
-                                    if (!p2.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p2.addCard(playPile.get(i));
-                                    } else if (!p1.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p1.addCard(playPile.get(i));
-                                    } else if (!p4.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p4.addCard(playPile.get(i));
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Player 1 is the WINNNER!", Toast.LENGTH_LONG).show();
+                                        imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
+                                        cardToast.show(); //shows the card that was played as a toast
+
+                                        playPile.clear(); //playPile is then cleared
+                                        card.setImageResource(backCard); //and the imageView is set to the backCard image
+                                        //loo to set corner cards
+                                        for (int i = 0; i < cornerCards.length; i++)
+                                            cornerCards[i].setImageResource(backCard);
                                     }
+                                } else if (playPile.get(playPile.size() - 1).getIsAFace()) {
+                                    chanceCount = 0;
                                     isAFaceTurn = false;
-
-                                    imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
-                                    cardToast.show(); //shows the card that was played as a toast
-
-                                    playPile.clear(); //playPile is then cleared
-                                    card.setImageResource(backCard); //and the imageView is set to the backCard image
-                                    //loo to set corner cards
-                                    for (int i = 0; i < cornerCards.length; i++)
-                                        cornerCards[i].setImageResource(backCard);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
                                 }
-                            } else if(playPile.get(playPile.size()-1).getIsAFace()) {
-                                chanceCount = 0;
-                                isAFaceTurn = false;
-                            } else {
-                                Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
+
+
                             }
 
+                            if(!playPile.isEmpty() && currentPlayer.equals(p3) && !isAFaceTurn) {
+                                if (!p4.getHand().isEmpty()) {
+                                    currentPlayer = p4;
+                                } else if (!p1.getHand().isEmpty()) {
+                                    currentPlayer = p1;
+                                } else if (!p2.getHand().isEmpty()) {
+                                    currentPlayer = p2;
+                                }
+                            }
 
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Player 3 is out of Cards!", Toast.LENGTH_LONG).show();
                         }
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "Player 3 is out of Cards!", Toast.LENGTH_LONG).show();
-                    }
 
-                    if (playPile.isEmpty()) { // if the play pile was emptied(due to face card rule) the card images are set to the back card image
-                        card.setImageResource(backCard);
-                        for (int i = 0; i < cornerCards.length; i++)
-                            cornerCards[i].setImageResource(backCard);
-                    }
-                    else { //if pile wasn't emptied, the card images are set to the played card
-                        card.setImageResource(playPile.get(playPile.size() - 1).getPath());
-                        if(playPile.size() >=2) {
+                        if (playPile.isEmpty()) { // if the play pile was emptied(due to face card rule) the card images are set to the back card image
+                            card.setImageResource(backCard);
                             for (int i = 0; i < cornerCards.length; i++)
-                                cornerCards[i].setImageResource(playPile.get(playPile.size() - 2).getPath());
+                                cornerCards[i].setImageResource(backCard);
+                        } else { //if pile wasn't emptied, the card images are set to the played card
+                            card.setImageResource(playPile.get(playPile.size() - 1).getPath());
+                            if (playPile.size() >= 2) {
+                                for (int i = 0; i < cornerCards.length; i++)
+                                    cornerCards[i].setImageResource(playPile.get(playPile.size() - 2).getPath());
+                            }
                         }
+
+                        setPlaybuttons();
+
+                        if (p3.getHand().size() == 52)
+                            Toast.makeText(getApplicationContext(), "Player 3 Wins!!!!!!!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "It is not your turn!", Toast.LENGTH_LONG).show();
                     }
-
-                    setPlaybuttons();
-
-                    if(p3.getHand().size() == 52)
-                        Toast.makeText(getApplicationContext(), "Player 3 Wins!!!!!!!", Toast.LENGTH_LONG).show();
                 }
             });
 
             p4Play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(currentPlayer.equals(p4) && p4.getHand().isEmpty()) {
+                        if(!p1.getHand().isEmpty()) {
+                            currentPlayer = p1;
+                        } else if(!p2.getHand().isEmpty()) {
+                            currentPlayer = p2;
+                        } else if(!p3.getHand().isEmpty()) {
+                            currentPlayer = p3;
+                        }
+                    }
+                    if (currentPlayer.equals(p4)) {
+                        try {
 
-                    try {
-                        playPile.add(p4.getCard(0));
-                        p4.removeCard(0);
-                        if (playPile.size() >= 2)
-                            prevCard = playPile.get(playPile.size() - 2);
-                        if (playPile.size() >= 3)
-                            prevPrevCard = playPile.get(playPile.size() - 3);
+                            playPile.add(p4.getCard(0));
+                            p4.removeCard(0);
+                            if (playPile.size() >= 2)
+                                prevCard = playPile.get(playPile.size() - 2);
+                            if (playPile.size() >= 3)
+                                prevPrevCard = playPile.get(playPile.size() - 3);
 
-                        if (prevCard.getIsAFace() || isAFaceTurn) {
-                            isAFaceTurn = true;
-                            if(prevCard.getIsAFace())
-                                chanceCount = prevCard.getRequiredPlays();
+                            if (prevCard.getIsAFace() || isAFaceTurn) {
+                                isAFaceTurn = true;
+                                if (prevCard.getIsAFace())
+                                    chanceCount = prevCard.getRequiredPlays();
 
-                            prevCard = playPile.get(playPile.size() - 1); //sets the previous card
+                                prevCard = playPile.get(playPile.size() - 1); //sets the previous card
 
-                            if(!playPile.get(playPile.size()-1).getIsAFace()) {
-                                chanceCount --;
-                                if(chanceCount == 0) {
-                                    if (!p3.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p3.addCard(playPile.get(i));
-                                    } else if (!p2.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p2.addCard(playPile.get(i));
-                                    } else if (!p1.getHand().isEmpty()) {
-                                        for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
-                                            p1.addCard(playPile.get(i));
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Player 1 is the WINNNER!", Toast.LENGTH_LONG).show();
+                                if (!playPile.get(playPile.size() - 1).getIsAFace()) {
+                                    chanceCount--;
+                                    if (chanceCount == 0) {
+                                        if (!p3.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p3.addCard(playPile.get(i));
+                                            currentPlayer = p3;
+                                        } else if (!p2.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p2.addCard(playPile.get(i));
+                                            currentPlayer = p2;
+                                        } else if (!p1.getHand().isEmpty()) {
+                                            for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to the previous player's hand
+                                                p1.addCard(playPile.get(i));
+                                            currentPlayer = p1;
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Player 1 is the WINNER!", Toast.LENGTH_LONG).show();
+                                        }
+                                        isAFaceTurn = false;
+
+                                        imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
+                                        cardToast.show(); //shows the card that was played as a toast
+
+                                        playPile.clear(); //playPile is then cleared
+                                        card.setImageResource(backCard); //and the imageView is set to the backCard image
+                                        //loo to set corner cards
+                                        for (int i = 0; i < cornerCards.length; i++)
+                                            cornerCards[i].setImageResource(backCard);
                                     }
+                                } else if (playPile.get(playPile.size() - 1).getIsAFace()) {
+                                    chanceCount = 0;
                                     isAFaceTurn = false;
-
-                                    imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
-                                    cardToast.show(); //shows the card that was played as a toast
-
-                                    playPile.clear(); //playPile is then cleared
-                                    card.setImageResource(backCard); //and the imageView is set to the backCard image
-                                    //loo to set corner cards
-                                    for (int i = 0; i < cornerCards.length; i++)
-                                        cornerCards[i].setImageResource(backCard);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
                                 }
-                            } else if(playPile.get(playPile.size()-1).getIsAFace()) {
-                                chanceCount = 0;
-                                isAFaceTurn = false;
-                            } else {
-                                Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
+
+
                             }
 
-
+                            if(!playPile.isEmpty() && currentPlayer.equals(p4) && !isAFaceTurn) {
+                                if (!p1.getHand().isEmpty()) {
+                                    currentPlayer = p1;
+                                } else if (!p2.getHand().isEmpty()) {
+                                    currentPlayer = p2;
+                                } else if (!p3.getHand().isEmpty()) {
+                                    currentPlayer = p3;
+                                }
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Player 4 is out of Cards!", Toast.LENGTH_LONG).show();
                         }
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "Player 4 is out of Cards!", Toast.LENGTH_LONG).show();
-                    }
 
-                    if (playPile.isEmpty()) { // if the play pile was emptied(due to face card rule) the card images are set to the back card image
-                        card.setImageResource(backCard);
-                        for (int i = 0; i < cornerCards.length; i++)
-                            cornerCards[i].setImageResource(backCard);
-                    }
-                    else { //if pile wasn't emptied, the card images are set to the played card
-                        card.setImageResource(playPile.get(playPile.size() - 1).getPath());
-                        if(playPile.size() >=2) {
+                        if (playPile.isEmpty()) { // if the play pile was emptied(due to face card rule) the card images are set to the back card image
+                            card.setImageResource(backCard);
                             for (int i = 0; i < cornerCards.length; i++)
-                                cornerCards[i].setImageResource(playPile.get(playPile.size() - 2).getPath());
+                                cornerCards[i].setImageResource(backCard);
+                        } else { //if pile wasn't emptied, the card images are set to the played card
+                            card.setImageResource(playPile.get(playPile.size() - 1).getPath());
+                            if (playPile.size() >= 2) {
+                                for (int i = 0; i < cornerCards.length; i++)
+                                    cornerCards[i].setImageResource(playPile.get(playPile.size() - 2).getPath());
+                            }
                         }
+
+                        setPlaybuttons();
+
+
+                        if (p4.getHand().size() == 52)
+                            Toast.makeText(getApplicationContext(), "Player 4 Wins!!!!!!!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "It is not your turn!", Toast.LENGTH_LONG).show();
                     }
-
-                    setPlaybuttons();
-
-                    if(p4.getHand().size() == 52)
-                        Toast.makeText(getApplicationContext(), "Player 4 Wins!!!!!!!", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -496,8 +606,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if (!playPile.isEmpty() && playPile.size() >= 2) { //checks if the playPile is at least two cards long
-                        if (prevCard.getName().equals(playPile.get(playPile.size() - 1).getName()) || ((playPile.size() >= 3) &&
+                        if (prevCard.getName().equals(playPile.get(playPile.size() - 2).getName()) || ((playPile.size() >= 3) &&
                                 prevPrevCard.getName().equals(playPile.get(playPile.size() - 1).getName()))) { //conditional checks for double cards and sandwhiches
+
                             for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end if the slap was viable
                                 p1.addCard(playPile.get(i));
 
@@ -517,6 +628,10 @@ public class MainActivity extends AppCompatActivity {
                             card.setImageResource(backCard); //and the imageView is set to the backCard image
                             for (int i = 0; i < cornerCards.length; i++)
                                 cornerCards[i].setImageResource(backCard);
+                            Toast.makeText(getApplicationContext(), "Player 1 wins the slap and the cards", Toast.LENGTH_LONG).show();
+
+                            isAFaceTurn = false;
+                            currentPlayer = p1;
                         } else {
 
                             if (!p1.getHand().isEmpty()) { //checks if the player's hand is not empty, as to avoid outOfBound exceptions
@@ -548,9 +663,11 @@ public class MainActivity extends AppCompatActivity {
             p2Slap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!playPile.isEmpty() && playPile.size() >= 2) {
-                        if (prevCard.getName().equals(playPile.get(playPile.size() - 1).getName()) || ((playPile.size() >= 3) &&
-                                prevPrevCard.getName().equals(playPile.get(playPile.size() - 1).getName()))) {
+                    if (playPile.size() >= 2) {
+                        /*if (prevCard.getName().equals(playPile.get(playPile.size() - 1).getName()) || ((playPile.size() >= 3) &&
+                                prevPrevCard.getName().equals(playPile.get(playPile.size() - 1).getName()))) { */
+                        if((playPile.get(playPile.size()-1).equals(playPile.get(playPile.size()-2))) ||
+                                (playPile.size() >= 3 && playPile.get(playPile.size()-1).equals(playPile.get(playPile.size()-3)))){
                             for (int i = 0; i < playPile.size(); i++) //adds the whole play pile to end
                                 p2.addCard(playPile.get(i));
                             prevCard = resetCard;
@@ -560,6 +677,8 @@ public class MainActivity extends AppCompatActivity {
                             for (int i = 0; i < cornerCards.length; i++)
                                 cornerCards[i].setImageResource(backCard);
                             Toast.makeText(getApplicationContext(), "Player 2 wins the slap and the cards", Toast.LENGTH_SHORT).show();
+                            currentPlayer = p2;
+                            isAFaceTurn = false;
                         } else {
 
                             if (!p2.getHand().isEmpty()) {
@@ -602,6 +721,9 @@ public class MainActivity extends AppCompatActivity {
                             for (int i = 0; i < cornerCards.length; i++)
                                 cornerCards[i].setImageResource(backCard);
                             Toast.makeText(getApplicationContext(), "Player 3 wins the slap and the cards", Toast.LENGTH_SHORT).show();
+
+                            currentPlayer = p3;
+                            isAFaceTurn = false;
                         } else {
 
                             if (!p3.getHand().isEmpty()) {
@@ -643,6 +765,9 @@ public class MainActivity extends AppCompatActivity {
                             for (int i = 0; i < cornerCards.length; i++)
                                 cornerCards[i].setImageResource(backCard);
                             Toast.makeText(getApplicationContext(), "Player 4 wins the slap and the cards", Toast.LENGTH_SHORT).show();
+
+                            currentPlayer = p4;
+                            isAFaceTurn = false;
                         } else {
 
                             if (!p4.getHand().isEmpty()) {
