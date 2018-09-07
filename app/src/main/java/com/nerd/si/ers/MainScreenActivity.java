@@ -31,7 +31,9 @@ public class MainScreenActivity extends AppCompatActivity {
                 startActivity(ht);
             }
         });
-
+        /*
+        One player mode will not be included in this first release
+        //TODO: Create a one player mode XD
         Button b3 = findViewById(R.id.onePlay);
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +41,7 @@ public class MainScreenActivity extends AppCompatActivity {
                 Intent op = new Intent(getApplicationContext(),OnePlayerActivity.class);
                 startActivity(op);
             }
-        });
+        });*/
 
         Button b4 = findViewById(R.id.twoPlay);
         b4.setOnClickListener(new View.OnClickListener() {

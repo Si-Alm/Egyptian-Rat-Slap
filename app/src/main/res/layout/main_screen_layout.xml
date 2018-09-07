@@ -58,26 +58,20 @@
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="241dp"
+        android:layout_height="205dp"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955">
-
-        <Button
-            android:id="@+id/onePlay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="One Player" />
+        app:layout_constraintVertical_bias="0.967">
 
         <Button
             android:id="@+id/twoPlay"

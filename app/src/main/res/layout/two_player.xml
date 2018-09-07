@@ -29,17 +29,7 @@
             android:layout_height="69dp"
             android:layout_weight="1"
             android:rotation="180"
-            android:text="Slap" />
-
-        <TextView
-            android:id="@+id/p1Count"
-            android:layout_width="70dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="-25dp"
-            android:rotation="180"
-            android:text="0"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+            android:text="Slap\n" />
 
         <Button
             android:id="@+id/a2p1Play"
@@ -47,7 +37,7 @@
             android:layout_height="67dp"
             android:layout_weight="1"
             android:rotation="180"
-            android:text="Play" />
+            android:text="Play\n(0)" />
     </LinearLayout>
 
     <ImageView
@@ -133,22 +123,14 @@
             android:layout_width="70dp"
             android:layout_height="69dp"
             android:layout_weight="1"
-            android:text="Slap" />
-
-        <TextView
-            android:id="@+id/p2Count"
-            android:layout_width="70dp"
-            android:layout_height="69dp"
-            android:text="0"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+            android:text="Slap\n" />
 
         <Button
             android:id="@+id/a2p2Play"
             android:layout_width="70dp"
             android:layout_height="67dp"
             android:layout_weight="1"
-            android:text="Play" />
+            android:text="Play\n(0)" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

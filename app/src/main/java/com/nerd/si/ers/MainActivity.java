@@ -1,5 +1,7 @@
 /**
  * This is the main, four-player activity for an android-mobile version of the card game: Egyptian-Rat Slap
+ * Due to the repetitive nature of the game logic, this activity will be the most heavily documented activity
+ * This documentation will largely be used as reference for the two and three player activities
  * All code is written and designed by me, Silas Almgren
  **/
 
@@ -10,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -315,6 +316,14 @@ public class MainActivity extends AppCompatActivity {
                                             Toast.makeText(getApplicationContext(), "Player 1 is the WINNER!", Toast.LENGTH_LONG).show();
                                         }
 
+
+                                         /*
+                                         Since the final card laid down was not shown on the pile
+                                         it is shown as a toast, so the players know which card was played
+                                         */
+                                        imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
+                                        cardToast.show(); //shows the card that was played as a toast
+
                                         /*
                                          Since the play pile was emptied the play pile is cleared and the face turn boolean is set to false
                                          */
@@ -322,22 +331,17 @@ public class MainActivity extends AppCompatActivity {
                                         playPile.clear(); //playPile is then cleared
 
 
-                                        /*
-                                         Since the final card layed down was not shown on the pile
-                                         it is shown as a toast, so the players know which card was played
-                                         */
-                                        imageView.setImageResource(playPile.get(playPile.size() - 1).getPath()); //sets the image view for the card toast to the non-face card that was played
-                                        cardToast.show(); //shows the card that was played as a toast
+
 
                                     }
                                 } else if (playPile.get(playPile.size() - 1).getIsAFace()) { //if the player lays down a face card
-                                                                                             //within the alloted chances, the face card
+                                                                                             //within the allotted chances, the face card
                                                                                              //trackers are reset
                                     chanceCount = 0;
                                     isAFaceTurn = false;
                                 } else {
                                     //with the logic, this statement should NEVER run
-                                    Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "WHOOPS!!", Toast.LENGTH_LONG).show();
                                 }
 
 
@@ -392,7 +396,11 @@ public class MainActivity extends AppCompatActivity {
 
                     } else {
                         //If player attempts to use their play button outside of their turn, this toast is shown
-                        Toast.makeText(getApplicationContext(), "It is not your turn", Toast.LENGTH_LONG).show();
+                        //unless the player's hand is empty, then the message stating so is shown
+                        if(p1.getHand().isEmpty())
+                            Toast.makeText(getApplicationContext(), "Player 1 is out of Cards!", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getApplicationContext(), "It is not your turn", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -451,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
                                                 p3.addCard(playPile.get(i));
                                             currentPlayer = p3;
                                         } else {
-                                            Toast.makeText(getApplicationContext(), "Player 1 is the WINNER!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Player 2 is the WINNER!", Toast.LENGTH_LONG).show();
                                         }
                                         isAFaceTurn = false;
 
@@ -467,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
                                     chanceCount = 0;
                                     isAFaceTurn = false;
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "WHOOPS!!", Toast.LENGTH_LONG).show();
                                 }
 
                             }
@@ -502,10 +510,13 @@ public class MainActivity extends AppCompatActivity {
 
 
                         if(p1.getHand().isEmpty() && p3.getHand().isEmpty() && p4.getHand().isEmpty())
-                            Toast.makeText(getApplicationContext(), "Player 1 Wins!!!!!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Player 2 Wins!!!!!!!", Toast.LENGTH_LONG).show();
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "It is not your turn!", Toast.LENGTH_LONG).show();
+                        if(p2.getHand().isEmpty())
+                            Toast.makeText(getApplicationContext(), "Player 2 is out of Cards!", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getApplicationContext(), "It is not your turn!", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -563,7 +574,7 @@ public class MainActivity extends AppCompatActivity {
                                                 p4.addCard(playPile.get(i));
                                             currentPlayer = p4;
                                         } else {
-                                            Toast.makeText(getApplicationContext(), "Player 1 is the WINNNER!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Player 3 is the WINNER!", Toast.LENGTH_LONG).show();
                                         }
                                         isAFaceTurn = false;
 
@@ -612,9 +623,12 @@ public class MainActivity extends AppCompatActivity {
                         setPlaybuttons();
 
                         if(p2.getHand().isEmpty() && p1.getHand().isEmpty() && p4.getHand().isEmpty())
-                            Toast.makeText(getApplicationContext(), "Player 1 Wins!!!!!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Player 3 Wins!!!!!!!", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), "It is not your turn!", Toast.LENGTH_LONG).show();
+                        if(p3.getHand().isEmpty())
+                            Toast.makeText(getApplicationContext(), "Player 3 is out of Cards!", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getApplicationContext(), "It is not your turn!", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -672,7 +686,7 @@ public class MainActivity extends AppCompatActivity {
                                                 p1.addCard(playPile.get(i));
                                             currentPlayer = p1;
                                         } else {
-                                            Toast.makeText(getApplicationContext(), "Player 1 is the WINNER!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Player 4 is the WINNER!", Toast.LENGTH_LONG).show();
                                         }
                                         isAFaceTurn = false;
 
@@ -686,7 +700,7 @@ public class MainActivity extends AppCompatActivity {
                                     chanceCount = 0;
                                     isAFaceTurn = false;
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "WHOOOPS!!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "WHOOPS!!", Toast.LENGTH_LONG).show();
                                 }
 
 
@@ -721,10 +735,13 @@ public class MainActivity extends AppCompatActivity {
 
 
                         if(p2.getHand().isEmpty() && p3.getHand().isEmpty() && p1.getHand().isEmpty())
-                            Toast.makeText(getApplicationContext(), "Player 1 Wins!!!!!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Player 4 Wins!!!!!!!", Toast.LENGTH_LONG).show();
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "It is not your turn!", Toast.LENGTH_LONG).show();
+                        if(p4.getHand().isEmpty())
+                            Toast.makeText(getApplicationContext(), "Player 4 is out of Cards!", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getApplicationContext(), "It is not your turn!", Toast.LENGTH_LONG).show();
                     }
                 }
             });
