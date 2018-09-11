@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/cardtable"
     android:layout_width="match_parent"
+    android:background="@drawable/cardtable"
     android:layout_height="match_parent">
-
-
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -21,13 +20,12 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.24">
+        app:layout_constraintVertical_bias="0.354">
 
         <Button
-            android:id="@+id/a3p1Slap"
+            android:id="@+id/a2p1Slap"
             android:layout_width="70dp"
             android:layout_height="69dp"
             android:layout_weight="1"
@@ -35,7 +33,7 @@
             android:text="Slap\n" />
 
         <Button
-            android:id="@+id/a3p1Play"
+            android:id="@+id/a2p1Play"
             android:layout_width="70dp"
             android:layout_height="69dp"
             android:layout_weight="1"
@@ -45,58 +43,38 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="291dp"
-        android:layout_height="211dp"
+        android:layout_width="445dp"
+        android:layout_height="284dp"
         android:layout_marginBottom="227dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="211dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.877"
+        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.435">
+        app:layout_constraintVertical_bias="0.582">
 
         <ImageView
             android:id="@+id/card"
-            android:layout_width="161dp"
+            android:layout_width="142dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="24dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/back1" />
 
 
-        <LinearLayout
-            android:layout_width="107dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/a3p2Slap"
-                android:layout_width="89dp"
-                android:layout_height="101dp"
-                android:rotation="-90"
-                android:text="Slap\n" />
-
-            <Button
-                android:id="@+id/a3p2Play"
-                android:layout_width="89dp"
-                android:layout_height="101dp"
-                android:rotation="-90"
-                android:text="Play\n(0)" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="234dp"
-        android:layout_height="81dp"
+        android:layout_height="94dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="6dp"
         android:layout_marginLeft="6dp"
@@ -106,20 +84,19 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="1.0">
 
         <Button
-            android:id="@+id/a3p3Slap"
+            android:id="@+id/a2p2Slap"
             android:layout_width="70dp"
             android:layout_height="69dp"
             android:layout_weight="1"
             android:text="Slap\n" />
 
         <Button
-            android:id="@+id/a3p3Play"
+            android:id="@+id/a2p2Play"
             android:layout_width="70dp"
             android:layout_height="69dp"
             android:layout_weight="1"
@@ -127,14 +104,14 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/a3cornerCard4"
-        android:layout_width="57dp"
-        android:layout_height="49dp"
+        android:id="@+id/a2cornerCard4"
+        android:layout_width="104dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="96dp"
         android:layout_marginEnd="22dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="6dp"
         android:layout_marginRight="22dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
@@ -143,9 +120,9 @@
         app:srcCompat="@drawable/back1" />
 
     <ImageView
-        android:id="@+id/a3cornerCard1"
-        android:layout_width="57dp"
-        android:layout_height="49dp"
+        android:id="@+id/a2cornerCard1"
+        android:layout_width="104dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="96dp"
         android:layout_marginEnd="6dp"
         android:layout_marginLeft="23dp"
@@ -159,9 +136,9 @@
         app:srcCompat="@drawable/back1" />
 
     <ImageView
-        android:id="@+id/a3cornerCard3"
-        android:layout_width="57dp"
-        android:layout_height="49dp"
+        android:id="@+id/a2cornerCard3"
+        android:layout_width="104dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="22dp"
         android:layout_marginLeft="6dp"
@@ -170,16 +147,14 @@
         android:layout_marginTop="115dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
-        app:layout_constraintHorizontal_bias="0.363"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/back1" />
 
     <ImageView
-        android:id="@+id/a3cornerCard2"
-        android:layout_width="57dp"
-        android:layout_height="49dp"
+        android:id="@+id/a2cornerCard2"
+        android:layout_width="104dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="6dp"
         android:layout_marginLeft="22dp"
@@ -190,6 +165,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/linearLayout3"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/back1" />
+        app:srcCompat="@drawable/back1"/>
 </android.support.constraint.ConstraintLayout>

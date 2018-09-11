@@ -10,5 +10,8 @@ public class HowTo extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.how_to_layout);
+
+
+
     }
 }

@@ -13,8 +13,8 @@ public class TwoPlayerActivity extends AppCompatActivity {
     //View widget declarations
     Button p1Play, p1Slap, p2Play, p2Slap;
     Button[] playButtons = new Button[2];
-    ImageView prevCardImage, prevCardImage2, card;
-    ImageView[] cornerCards = new ImageView[2];
+    ImageView cornerCard2, cornerCard1, cornerCard4, cornerCard3, card;
+    ImageView[] cornerCards = new ImageView[4];
 
     Toast cardToast;
     ImageView imageView;
@@ -111,14 +111,18 @@ public class TwoPlayerActivity extends AppCompatActivity {
         //views initialized to there view ids
         p1Play = findViewById(R.id.a2p1Play);
         p1Slap = findViewById(R.id.a2p1Slap);
-        p2Play = findViewById(R.id.a2p2Play);
-        p2Slap = findViewById(R.id.a2p2Slap);
-        card = findViewById(R.id.a2MainCard);
-        prevCardImage = findViewById(R.id.a2prevCard);
-        prevCardImage2 = findViewById(R.id.a2prevCard2);
+        p2Play = findViewById(R.id.a2p3Play);
+        p2Slap = findViewById(R.id.a2p3Slap);
+        card = findViewById(R.id.card);
+        cornerCard1 = findViewById(R.id.a2cornerCard1);
+        cornerCard2 = findViewById(R.id.a2cornerCard2);
+        cornerCard3 = findViewById(R.id.a2cornerCard3);
+        cornerCard4 = findViewById(R.id.a2cornerCard4);
 
-        cornerCards[0] = prevCardImage;
-        cornerCards[1] = prevCardImage2;
+        cornerCards[0] = cornerCard2;
+        cornerCards[1] = cornerCard1;
+        cornerCards[2] = cornerCard3;
+        cornerCards[3] = cornerCard4;
 
         playButtons[0] = p1Play;
         playButtons[1] = p2Play;

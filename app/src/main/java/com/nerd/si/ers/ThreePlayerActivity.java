@@ -15,9 +15,9 @@ public class ThreePlayerActivity extends AppCompatActivity {
 
     //View widget declarations
     Button p1Play, p1Slap, p2Play, p2Slap, p3Play, p3Slap;
-    ImageView prevCardImage, prevCardImage2, prevCardImage3, card;
+    ImageView cornerCard1, cornerCard2, cornerCard3, cornerCard4, card;
     Button[] playButtons = new Button[3];
-    ImageView[] cornerCards = new ImageView[3];
+    ImageView[] cornerCards = new ImageView[4];
 
     Toast cardToast;
     ImageView imageView;
@@ -119,14 +119,16 @@ public class ThreePlayerActivity extends AppCompatActivity {
         p2Slap = findViewById(R.id.a3p2Slap);
         p3Play = findViewById(R.id.a3p3Play);
         p3Slap = findViewById(R.id.a3p3Slap);
-        card = findViewById(R.id.a3mainCard);
-        prevCardImage = findViewById(R.id.a3PrevCard);
-        prevCardImage2 = findViewById(R.id.a3PrevCard2);
-        prevCardImage3 = findViewById(R.id.a3PrevCard3);
+        card = findViewById(R.id.card);
+        cornerCard1 = findViewById(R.id.a3cornerCard1);
+        cornerCard2 = findViewById(R.id.a3cornerCard2);
+        cornerCard3 = findViewById(R.id.a3cornerCard3);
+        cornerCard4 = findViewById(R.id.a3cornerCard4);
 
-        cornerCards[0] = prevCardImage;
-        cornerCards[1] = prevCardImage2;
-        cornerCards[2] = prevCardImage3;
+        cornerCards[0] = cornerCard1;
+        cornerCards[1] = cornerCard2;
+        cornerCards[2] = cornerCard3;
+        cornerCards[3] = cornerCard4;
 
         playButtons[0] = p1Play;
         playButtons[1] = p2Play;
