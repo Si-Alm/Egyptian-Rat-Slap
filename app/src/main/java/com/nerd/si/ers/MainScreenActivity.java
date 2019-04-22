@@ -41,7 +41,7 @@ public class MainScreenActivity extends AppCompatActivity {
                 Intent fourP = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(fourP);
             }
-        });
+        }); 
 
         Button b2 = findViewById(R.id.rule);
         b2.setOnClickListener(new View.OnClickListener() {
