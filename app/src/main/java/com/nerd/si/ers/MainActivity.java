@@ -16,6 +16,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    //TODO: add audio? --->
+    //         MediaPlayer ring= MediaPlayer.create(MainActivity.this,R.raw.ring);
+    //         ring.start();
+
     /*
       Widget view declarations(player slap and play buttons, button array, corner card image views and their array
       As well as the cardToast and its imageView
